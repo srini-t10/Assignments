@@ -41,150 +41,80 @@ Following are the sequence of steps to applied to generate the tidy data set,
 
 ### Column list in tidy data set Output file.
 
-ActivityID
+ActivityID  <br/>
+ActivityName  <br/>
+SubjectID  <br/>
+TimeBodyAcceleration_mean_X  <br/>
+TimeBodyAcceleration_mean_Y  <br/>
+TimeBodyAcceleration_mean_Z  <br/>
+TimeBodyAcceleration_std_X  <br/>
+TimeBodyAcceleration_std_Y  <br/>
+TimeBodyAcceleration_std_Z   <br/>
+TimeGravityAcceleration_mean_X  <br/>
+TimeGravityAcceleration_mean_Y  <br/>
+TimeGravityAcceleration_mean_Z  <br/>
+TimeGravityAcceleration_std_X  <br/>
+TimeGravityAcceleration_std_Y  <br/>
+TimeGravityAcceleration_std_Z  <br/>
+TimeBodyAccelerationJerk_mean_X  <br/>
+TimeBodyAccelerationJerk_mean_Y  <br/>
+TimeBodyAccelerationJerk_mean_Z  <br/>
+TimeBodyAccelerationJerk_std_X <br/>
+TimeBodyAccelerationJerk_std_Y <br/>
+TimeBodyAccelerationJerk_std_Z <br/>
+TimeBodyGyro_mean_X <br/>
+TimeBodyGyro_mean_Y <br/>
+TimeBodyGyro_mean_Z <br/>
+TimeBodyGyro_std_X <br/>
+TimeBodyGyro_std_Y <br/>
+TimeBodyGyro_std_Z <br/>
+TimeBodyGyroJerk_mean_X <br/>
+TimeBodyGyroJerk_mean_Y <br/>
+TimeBodyGyroJerk_mean_Z <br/>
+TimeBodyGyroJerk_std_X <br/>
+TimeBodyGyroJerk_std_Y <br/>
+TimeBodyGyroJerk_std_Z <br/>
+TimeBodyAccelerationMagnitude_mean <br/>
+TimeBodyAccelerationMagnitude_std <br/>
+TimeGravityAccelerationMagnitude_mean <br/>
+TimeGravityAccelerationMagnitude_std <br/>
+TimeBodyAccelerationJerkMagnitude_mean <br/>
+TimeBodyAccelerationJerkMagnitude_std <br/>
+TimeBodyGyroMagnitude_mean <br/>
+TimeBodyGyroMagnitude_std <br/>
+TimeBodyGyroJerkMagnitude_mean <br/>
+TimeBodyGyroJerkMagnitude_std <br/>
+FrequencyBodyAcceleration_mean_X <br/>
+FrequencyBodyAcceleration_mean_Y <br/>
+FrequencyBodyAcceleration_mean_Z <br/>
+FrequencyBodyAcceleration_std_X <br/>
+FrequencyBodyAcceleration_std_Y <br/>
+FrequencyBodyAcceleration_std_Z <br/>
+FrequencyBodyAccelerationJerk_mean_X <br/>
+FrequencyBodyAccelerationJerk_mean_Y <br/>
+FrequencyBodyAccelerationJerk_mean_Z <br/>
+FrequencyBodyAccelerationJerk_std_X <br/>
+FrequencyBodyAccelerationJerk_std_Y <br/>
+FrequencyBodyAccelerationJerk_std_Z <br/>
+FrequencyBodyGyro_mean_X <br/>
+FrequencyBodyGyro_mean_Y <br/>
+FrequencyBodyGyro_mean_Z <br/>
+FrequencyBodyGyro_std_X <br/>
+FrequencyBodyGyro_std_Y <br/>
+FrequencyBodyGyro_std_Z <br/>
+FrequencyBodyAccelerationMagnitude_mean <br/>
+FrequencyBodyAccelerationMagnitude_std <br/>
+FrequencyBodyBodyAccelerationJerkMagnitude_mean <br/>
+FrequencyBodyBodyAccelerationJerkMagnitude_std <br/>
+FrequencyBodyBodyGyroMagnitude_mean <br/>
+FrequencyBodyBodyGyroMagnitude_std <br/>
+FrequencyBodyBodyGyroJerkMagnitude_mean <br/>
+FrequencyBodyBodyGyroJerkMagnitude_std <br/>
 
-ActivityName
-
-SubjectID
-
-TimeBodyAcceleration_mean_X
-
-TimeBodyAcceleration_mean_Y
-
-TimeBodyAcceleration_mean_Z
-
-TimeBodyAcceleration_std_X
-
-TimeBodyAcceleration_std_Y
-
-TimeBodyAcceleration_std_Z
-
-TimeGravityAcceleration_mean_X
-
-TimeGravityAcceleration_mean_Y
-
-TimeGravityAcceleration_mean_Z
-
-TimeGravityAcceleration_std_X
-
-TimeGravityAcceleration_std_Y
-
-TimeGravityAcceleration_std_Z
-
-TimeBodyAccelerationJerk_mean_X
-
-TimeBodyAccelerationJerk_mean_Y
-
-TimeBodyAccelerationJerk_mean_Z
-
-TimeBodyAccelerationJerk_std_X
-
-TimeBodyAccelerationJerk_std_Y
-
-TimeBodyAccelerationJerk_std_Z
-
-TimeBodyGyro_mean_X
-
-TimeBodyGyro_mean_Y
-
-TimeBodyGyro_mean_Z
-
-TimeBodyGyro_std_X
-
-TimeBodyGyro_std_Y
-
-TimeBodyGyro_std_Z
-
-TimeBodyGyroJerk_mean_X
-
-TimeBodyGyroJerk_mean_Y
-
-TimeBodyGyroJerk_mean_Z
-
-TimeBodyGyroJerk_std_X
-
-TimeBodyGyroJerk_std_Y
-
-TimeBodyGyroJerk_std_Z
-
-TimeBodyAccelerationMagnitude_mean
-
-TimeBodyAccelerationMagnitude_std
-
-TimeGravityAccelerationMagnitude_mean
-
-TimeGravityAccelerationMagnitude_std
-
-TimeBodyAccelerationJerkMagnitude_mean
-
-TimeBodyAccelerationJerkMagnitude_std
-
-TimeBodyGyroMagnitude_mean
-
-TimeBodyGyroMagnitude_std
-
-TimeBodyGyroJerkMagnitude_mean
-
-TimeBodyGyroJerkMagnitude_std
-
-FrequencyBodyAcceleration_mean_X
-
-FrequencyBodyAcceleration_mean_Y
-
-FrequencyBodyAcceleration_mean_Z
-
-FrequencyBodyAcceleration_std_X
-
-FrequencyBodyAcceleration_std_Y
-
-FrequencyBodyAcceleration_std_Z
-
-FrequencyBodyAccelerationJerk_mean_X
-
-FrequencyBodyAccelerationJerk_mean_Y
-
-FrequencyBodyAccelerationJerk_mean_Z
-
-FrequencyBodyAccelerationJerk_std_X
-
-FrequencyBodyAccelerationJerk_std_Y
-
-FrequencyBodyAccelerationJerk_std_Z
-
-FrequencyBodyGyro_mean_X
-
-FrequencyBodyGyro_mean_Y
-
-FrequencyBodyGyro_mean_Z
-
-FrequencyBodyGyro_std_X
-
-FrequencyBodyGyro_std_Y
-
-FrequencyBodyGyro_std_Z
-
-FrequencyBodyAccelerationMagnitude_mean
-
-FrequencyBodyAccelerationMagnitude_std
-
-FrequencyBodyBodyAccelerationJerkMagnitude_mean
-
-FrequencyBodyBodyAccelerationJerkMagnitude_std
-
-FrequencyBodyBodyGyroMagnitude_mean
-
-FrequencyBodyBodyGyroMagnitude_std
-
-FrequencyBodyBodyGyroJerkMagnitude_mean
-
-FrequencyBodyBodyGyroJerkMagnitude_std
-
-
-- - - - 
 	
-### Appendix:
+## Appendix:
 
-## Input Dataset Credit:
+### Input Dataset Credit:
 
 > **Human Activity Recognition Using Smartphones Dataset**
 
@@ -231,7 +161,7 @@ Finally a Fast Fourier Transform (FFT) was applied to some of these signals prod
 These signals were used to estimate variables of the feature vector for each pattern:  
 '-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
 
-tBodyAcc-XYZ <br/>  
+tBodyAcc-XYZ <br/>
 tGravityAcc-XYZ <br/> 
 tBodyAccJerk-XYZ  <br/>
 tBodyGyro-XYZ  <br/>
