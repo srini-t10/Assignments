@@ -97,7 +97,7 @@
           }
     )
     
-    # Plot row 2 column 2: Voltage
+    # Plot row 2 column 2: Global_reactive_power
     with(plotdata, 
          plot(Global_reactive_power ~ DateTime
               ,type = "l"
