@@ -4,7 +4,8 @@ author: "Srinivasan Thandapani"
 date: "November 19, 2017"
 output: 
  html_document:
-   md_document
+   md_document:
+      variant: markdown_github
     
 ---
 
