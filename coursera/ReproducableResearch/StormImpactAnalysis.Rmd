@@ -1,0 +1,237 @@
+---
+title: "US Storm Events Population and Economy Impact (1950 - 2011), Exploratory Analysis"
+author: "Srinivasan Thandapani"
+date: "November 19, 2017"
+output: 
+ html_document:
+   md_document
+    
+---
+
+</br>  
+
+Synopsis:
+---------
+
+This project explores the U.S. National Oceanic and Atmospheric Administration's (NOAA) storm database. The database tracks characteristics of major storms and weather events in the United States, including when and where they occur, as well as estimates of any fatalities, injuries, and property damage.  
+  
+  
+This analysis explores the storm database to answer the following questions:  
+
+1. Across the United States, which types of events (as indicated in the EVTYPE variable) are most harmful with respect to population health?
+
+2. Across the United States, which types of events have the greatest economic consequences?
+  
+</br>  
+  
+Data Processing:
+----------------
+
+**Data Source: **  
+
+The US NOAA Storm database can be downloaded from the following link. The data is in the form of a comma-separated-value file compressed via the bzip2 algorithm to reduce its size.
+
+* [Storm Data](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2) [47Mb]  
+
+Some documentation of the database is available at followinh links. 
+
+* National Weather Service [Storm Data Documentation](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf)
+
+* National Climatic Data Center Storm Events [FAQ](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2FNCDC%20Storm%20Events-FAQ%20Page.pdf)  
+
+</br>
+
+**Download the data: **  
+
+Download the input data file, load the dataset  
+
+```{r,echo=TRUE, message=FALSE, cache=TRUE}
+
+download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2",
+              "StormData.csv.bz2")
+
+input = read.csv(bzfile("StormData.csv.bz2"))
+
+```
+
+</br>
+
+**Explore the data: **
+
+Look at the data columns, class and levels
+
+```{r, echo=TRUE}
+str(input)
+```
+
+By reading the dataset and database document, the following are the required attributes to determine the most harmful event types to population health and that has greatest economic consequences.    
+
+* BGN_DATE
+* EVTYPE
+* FATALITIES
+* INJURIES
+* PROPDMG
+* PROPDMGEXP
+* CROPDMG
+* CROPDMGEXP  
+
+Confine the dataset to above fields.
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+# Load required package
+library(dplyr)
+library(lubridate)
+library(gridExtra)
+library(ggplot2)
+
+# Subset data and determine the "year" from event begin date
+stormdata = 
+  input %>%
+  select(BGN_DATE, EVTYPE, FATALITIES, INJURIES, PROPDMG, PROPDMGEXP, CROPDMG, CROPDMGEXP) %>%
+  mutate(BGN_YEAR=year(mdy_hms(BGN_DATE)))
+
+```
+
+
+Look at the damage expressions or unit of measurement, to eliminate any noisy data. 
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+# Property damage by damage expression i.e. unit of measurement
+stormdata %>%
+  group_by(PROPDMGEXP) %>%
+  summarise(sum(PROPDMG))
+
+# Crop damage by damage expression i.e. unit of measurement
+stormdata %>%
+  group_by(CROPDMGEXP) %>%
+  summarise(sum(CROPDMG))
+```
+
+From the above data, it can be observe that there is different unit of measurement. 
+We can understand from the database document that,
+
+* k or K - stands for Thousands
+* m or M - stands for Millions
+* b or B - stands for Billions
+
+We will treat all the other units as noisy data and will not consider them for this analysis.  
+
+</br>
+
+
+**Process the data: **
+
+Determine the total FATALITIES and INJURIES by Event Type.
+Also, convert the damage to single unit i.e. to Thousands and determine the total PROPERTY and CROP damage by Event Type.
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+processeddata =
+  stormdata %>%
+  
+  # Derive the people impact and damage
+  mutate(PeopleImpact = FATALITIES + INJURIES,
+         Damage_K = case_when(toupper(PROPDMGEXP) == 'K' ~ PROPDMG,
+                               toupper(PROPDMGEXP) == 'M' ~ PROPDMG*10^3,
+                               toupper(PROPDMGEXP) == 'B' ~ PROPDMG*10^6,
+                               TRUE ~ 0.00) 
+                    +
+                    case_when(CROPDMGEXP == 'K' ~ CROPDMG,
+                               CROPDMGEXP == 'M' ~ CROPDMG*10^3,
+                               CROPDMGEXP == 'B' ~ CROPDMG*10^6,
+                               TRUE ~ 0.00) 
+         ) %>%
+  
+  # Determine Total People Impact and Total Damage by Event Type
+  group_by(EventType = EVTYPE) %>%
+  summarise(TotalPeopleImpact = sum(PeopleImpact), TotalDamage_Millions = sum(Damage_K)/10^3) %>%
+  
+  # Rank the Events by People Impact and by Total Damage
+  mutate(TotalPeopleImpact_Rank= row_number(desc(TotalPeopleImpact)),
+         TotalDamage_Rank = row_number(desc(TotalDamage_Millions)))
+  
+
+```
+
+Determine the top 15 events that has caused,
+
+1. High population impact
+2. High economic consequences
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+# Top 15 Events with high Population impact
+HighPeopleImpact = 
+  processeddata %>%
+  select(EventType, TotalPeopleImpact_Rank, TotalPeopleImpact) %>%
+  filter(TotalPeopleImpact_Rank < 16) %>%
+  
+  # Re-arrange the event type levels to display the bars in descending order
+  arrange(-TotalPeopleImpact_Rank) %>%
+  mutate(EventType = factor(EventType, EventType)) %>%
+  # For table output
+  arrange(TotalPeopleImpact_Rank)
+
+
+# Top 15 Events with high Economy impact
+HighEconomyImpact = 
+  processeddata %>%
+  select(EventType, TotalDamage_Rank, TotalDamage_Millions) %>%
+  filter(TotalDamage_Rank < 16) %>%
+  
+  # Re-arrange the event type levels to display the bars in descending order
+  arrange(-TotalDamage_Rank) %>%
+  mutate(EventType = factor(EventType, EventType)) %>%
+  # For table output
+  arrange(TotalDamage_Rank)
+
+```
+
+
+</br>
+
+Results:
+--------
+
+**Population Impact**
+
+Following are the top 15 events that has caused high population impact since 1950.
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+
+ggplot(HighPeopleImpact, aes(EventType, TotalPeopleImpact)) + 
+  geom_bar(position="dodge", stat="identity", fill="steelblue") + 
+  coord_flip() +
+  labs(x="Event Type", 
+       y="Total People Affected (Fatality or Injured)", 
+       title = "Top 15 Events with high Population Damage in US (Since 1950)") 
+ 
+```
+
+```{r, echo=TRUE, warning=FALSE}
+knitr::kable(HighPeopleImpact,format="pandoc")
+```
+
+*Tornado* has caused high population damage in United States.
+
+</br>
+
+**Economic Impact**
+
+Following are the top 15 events that has caused high economy impact since 1950.
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+
+ggplot(HighEconomyImpact, aes(EventType, TotalDamage_Millions)) + 
+  geom_bar(position="dodge", stat="identity", fill="steelblue") + 
+  coord_flip() +
+  labs(x="Event Type", 
+       y="Total Damage ($ in Millions)", 
+       title = "Top 15 Events with high economy impact in US (Since 1950)") 
+ 
+```
+
+
+```{r, echo=TRUE, warning=FALSE}
+knitr::kable(HighEconomyImpact,format="pandoc")
+```
+
+*Flood* damage has caused high economy impact since 1950.
+
