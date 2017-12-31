@@ -1,2 +1,2 @@
 # Training
-A repo to maintain all the files created in my training exercises
+A repo to maintain the files/capstone projects created for my course assignments
